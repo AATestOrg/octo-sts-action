@@ -34,4 +34,4 @@ outputs:
 runs:
   using: 'node20'
   main: 'index.js'
-  post: 'post.js'
+  # post: 'post.js'
