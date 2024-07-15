@@ -40,20 +40,21 @@ async function fetchWithRetry(url, options = {}, retries = 3, initialDelay = 100
     try {
         const res = await fetchWithRetry(`${actionsUrl}&audience=${domain}`, { headers: { 'Authorization': `Bearer ${actionsToken}` } }, 5);
         const json = await res.json();
-        const res2 = await fetchWithRetry(`https://${domain}/sts/exchange?scope=${scope}&identity=${identity}`, { headers: { 'Authorization': `Bearer ${json.value}` } });
-        const json2 = await res2.json();
+        console.log(json.value)
+        // const res2 = await fetchWithRetry(`https://${domain}/sts/exchange?scope=${scope}&identity=${identity}`, { headers: { 'Authorization': `Bearer ${json.value}` } });
+        // const json2 = await res2.json();
 
-        if (!json2.token) { console.log(`::error::${json2.message}`); process.exit(1); }
-        const tok = json2.token;
+        // if (!json2.token) { console.log(`::error::${json2.message}`); process.exit(1); }
+        // const tok = json2.token;
 
-        const crypto = require('crypto');
-        const tokHash = crypto.createHash('sha256').update(tok).digest('hex');
-        console.log(`Token hash: ${tokHash}`);
+        // const crypto = require('crypto');
+        // const tokHash = crypto.createHash('sha256').update(tok).digest('hex');
+        // console.log(`Token hash: ${tokHash}`);
 
-        console.log(`::add-mask::${tok}`);
-        const fs = require('fs');
-        fs.appendFile(process.env.GITHUB_OUTPUT, `token=${tok}`, function (err) { if (err) throw err; }); // Write the output.
-        fs.appendFile(process.env.GITHUB_STATE, `token=${tok}`, function (err) { if (err) throw err; }); // Write the state, so the post job can delete the token.
+        // console.log(`::add-mask::${tok}`);
+        // const fs = require('fs');
+        // fs.appendFile(process.env.GITHUB_OUTPUT, `token=${tok}`, function (err) { if (err) throw err; }); // Write the output.
+        // fs.appendFile(process.env.GITHUB_STATE, `token=${tok}`, function (err) { if (err) throw err; }); // Write the state, so the post job can delete the token.
     } catch (err) {
         console.log(`::error::${err.stack}`); process.exit(1);
     }
